@@ -18,6 +18,44 @@ app.use(bodyParser.json());
 
 let soapClient;
 
+const isFiniteNumber = (value) => typeof value === "number" && Number.isFinite(value);
+
+const extractSoapErrorMessage = (faultOrErr) => {
+  if (!faultOrErr) {
+    return "SOAP operation failed";
+  }
+
+  if (typeof faultOrErr.body === "string") {
+    const textMatch = faultOrErr.body.match(/<soap:Text>([^<]+)<\/soap:Text>/i);
+    if (textMatch && textMatch[1]) {
+      return textMatch[1].trim();
+    }
+    return faultOrErr.body.replace(/<[^>]*>/g, " ").trim() || "SOAP operation failed";
+  }
+
+  if (faultOrErr.root?.Envelope?.Body?.Fault?.Reason?.Text?._) {
+    return String(faultOrErr.root.Envelope.Body.Fault.Reason.Text._).trim();
+  }
+
+  if (faultOrErr.message) {
+    return faultOrErr.message;
+  }
+
+  return "SOAP operation failed";
+};
+
+const isClientSideSoapError = (faultOrErr, message) => {
+  if (!faultOrErr) {
+    return false;
+  }
+
+  const lowerMessage = message.toLowerCase();
+  if (faultOrErr.code && typeof faultOrErr.code === "string") {
+    return faultOrErr.code.startsWith("Client.");
+  }
+  return lowerMessage.includes("division by zero") || lowerMessage.includes("must be a finite number");
+};
+
 // Initialize SOAP client for the proxy (Educational implementation for TP1)
 soap.createClient(WSDL_URL, (err, client) => {
   if (err) {
@@ -45,27 +83,25 @@ app.get("/health", (req, res) => {
 const handleSoapOperation = (operation) => async (req, res) => {
   const { a, b } = req.body;
 
-  if (typeof a !== "number" || typeof b !== "number") {
-    return res.status(400).json({ error: "Invalid input: 'a' and 'b' must be numbers." });
+  if (!isFiniteNumber(a) || !isFiniteNumber(b)) {
+    return res.status(400).json({ error: "Invalid input: 'a' and 'b' must be finite numbers." });
   }
 
   try {
-    const fn = soapClient[operation];
-    if (typeof fn !== "function") {
+    const callOperation = soapClient?.[`${operation}Async`];
+
+    if (typeof callOperation !== "function") {
+      console.error(`Attempted to call unknown SOAP operation: ${operation}`);
       return res.status(500).json({ error: `Unknown SOAP operation: ${operation}` });
     }
 
-    fn({ a, b }, (faultOrErr, result) => {
-      if (faultOrErr) {
-        console.error(`SOAP Fault/Error for ${operation}:`, faultOrErr.body || faultOrErr);
-        const statusCode = faultOrErr.code === "Client.DivisionByZero" || faultOrErr.code === "Client.ValidationError" ? 400 : 500;
-        return res.status(statusCode).json({ error: faultOrErr.body || faultOrErr.message || "SOAP operation failed" });
-      }
-      res.json(result);
-    });
-  } catch (error) {
-    console.error(`Unexpected error during ${operation}:`, error);
-    res.status(500).json({ error: "An unexpected error occurred." });
+    const [result] = await callOperation({ a, b });
+    return res.json(result);
+  } catch (faultOrErr) {
+    const message = extractSoapErrorMessage(faultOrErr);
+    const statusCode = isClientSideSoapError(faultOrErr, message) ? 400 : 502;
+    console.error(`SOAP Fault/Error for ${operation}:`, message, faultOrErr?.body ? `\nSOAP Body: ${faultOrErr.body}` : "");
+    return res.status(statusCode).json({ error: message });
   }
 };
 

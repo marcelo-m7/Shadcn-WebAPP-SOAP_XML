@@ -1,7 +1,6 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import IndexPage from './pages/Index.tsx';
-import ThemeToggle from './components/ThemeToggle.tsx';
+import { Routes, Route } from "react-router-dom";
+import IndexPage from "./pages/Index.tsx";
+import ThemeToggle from "./components/ThemeToggle.tsx";
 
 function App() {
   return (

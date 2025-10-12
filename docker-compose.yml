@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  soap-server:
+    build:
+      context: .
+      target: soap-server
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test:
+        - "CMD"
+        - "node"
+        - "-e"
+        - "fetch('http://localhost:3000/health').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+
+  soap-proxy:
+    build:
+      context: .
+      target: soap-proxy
+    restart: unless-stopped
+    environment:
+      WSDL_URL: http://soap-server:3000/wsdl?wsdl
+    depends_on:
+      soap-server:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    healthcheck:
+      test:
+        - "CMD"
+        - "node"
+        - "-e"
+        - "fetch('http://localhost:3001/health').then(r=>r.ok?process.exit(0):process.exit(1)).catch(()=>process.exit(1))"
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+
+  frontend:
+    build:
+      context: .
+      target: frontend
+      args:
+        VITE_SOAP_PROXY_URL: http://soap-proxy:3001
+    restart: unless-stopped
+    depends_on:
+      soap-proxy:
+        condition: service_healthy
+    ports:
+      - "32100:80"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s

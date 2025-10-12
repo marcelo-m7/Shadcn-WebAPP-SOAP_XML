@@ -6,38 +6,27 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 
 const ThemeToggle: React.FC = () => {
-  const [theme, setTheme] = React.useState<"dark" | "light" | "system">("system");
+  const [theme, setTheme] = React.useState<"dark" | "light">("light");
 
   React.useEffect(() => {
-    const storedTheme = localStorage.getItem("theme") as "dark" | "light" | "system" | null;
-    if (storedTheme) {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "light" || storedTheme === "dark") {
       setTheme(storedTheme);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
+      return;
     }
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setTheme(prefersDark ? "dark" : "light");
   }, []);
 
   React.useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
-
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      root.classList.add(systemTheme);
-    } else {
-      root.classList.add(theme);
-    }
+    root.classList.add(theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => {
-      if (prevTheme === "light") return "dark";
-      if (prevTheme === "dark") return "light";
-      return "system"; // Fallback or if you want to cycle through system
-    });
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   return (

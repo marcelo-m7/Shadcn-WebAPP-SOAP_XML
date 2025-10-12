@@ -115,6 +115,32 @@ To run the full application, you need to start the SOAP server, the SOAP proxy, 
     ```
     This command will automatically open `http://localhost:32100` in your default web browser.
 
+## 🐳 Running with Docker
+
+The repository ships with a production-ready Docker setup that orchestrates all services with a single command.
+
+1.  **Build the images and start the stack:**
+
+    ```bash
+    docker compose up --build
+    ```
+
+    This command builds individual images for the SOAP server, SOAP proxy, and the static frontend (served by Nginx), then starts them with the correct networking configuration.
+
+2.  **Access the services:**
+
+    *   Frontend: <http://localhost:32100>
+    *   SOAP Proxy (REST): <http://localhost:3001>
+    *   SOAP Server (WSDL): <http://localhost:3000/wsdl?wsdl>
+
+3.  **Shut everything down:**
+
+    ```bash
+    docker compose down
+    ```
+
+Each service exposes a `/health` endpoint used by Docker healthchecks, ensuring the dependency chain (`soap-server` → `soap-proxy` → `frontend`) only starts once upstream services are ready.
+
 ## 🧪 Testing with SOAP Client (CLI)
 
 You can test the SOAP service directly using the command-line client:

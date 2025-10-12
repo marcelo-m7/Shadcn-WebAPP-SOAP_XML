@@ -1,46 +1,58 @@
-import React, { useState } from 'react';
-import { performOperation } from '../lib/api';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
-import { Label } from './ui/label';
-import { toast } from 'sonner';
+import React, { useState } from "react";
+import { performOperation, type Operation } from "../lib/api";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "./ui/card";
+import { Label } from "./ui/label";
+import { toast } from "sonner";
+
+const OPERATIONS: Operation[] = ["add", "subtract", "multiply", "divide"];
+
+const OPERATION_LABELS: Record<Operation, { idle: string; loading: string }> = {
+  add: { idle: "Add", loading: "Adding..." },
+  subtract: { idle: "Subtract", loading: "Subtracting..." },
+  multiply: { idle: "Multiply", loading: "Multiplying..." },
+  divide: { idle: "Divide", loading: "Dividing..." },
+};
 
 const Calculator: React.FC = () => {
-  const [numberA, setNumberA] = useState<string>('');
-  const [numberB, setNumberB] = useState<string>('');
+  const [numberA, setNumberA] = useState<string>("");
+  const [numberB, setNumberB] = useState<string>("");
   const [result, setResult] = useState<number | string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingOperation, setLoadingOperation] = useState<Operation | null>(null);
 
-  const handleOperation = async (operation: string) => {
-    setLoading(true);
-    setResult(null); // Clear previous result when a new operation starts
+  const handleOperation = async (operation: Operation) => {
+    setLoadingOperation(operation);
+    setResult(null);
+
+    const a = Number.parseFloat(numberA);
+    const b = Number.parseFloat(numberB);
+
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+      toast.error("Please enter valid numbers for both inputs.");
+      setLoadingOperation(null);
+      return;
+    }
+
     try {
-      const a = parseFloat(numberA);
-      const b = parseFloat(numberB);
-
-      if (isNaN(a) || isNaN(b)) {
-        toast.error('Please enter valid numbers for both inputs.');
-        return;
-      }
-
-      const res = await performOperation(operation, a, b);
-      setResult(res);
-      toast.success(`Operation successful! Result: ${res}`);
-    } catch (error: any) {
-      setResult('Error');
-      toast.error(error.message || 'An unexpected error occurred.');
+      const operationResult = await performOperation(operation, a, b);
+      setResult(operationResult);
+      toast.success(`Operation successful! Result: ${operationResult}`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "An unexpected error occurred.";
+      setResult("Error");
+      toast.error(message);
     } finally {
-      setLoading(false);
+      setLoadingOperation(null);
     }
   };
 
   const handleClear = () => {
-    setNumberA('');
-    setNumberB('');
+    setNumberA("");
+    setNumberB("");
     setResult(null);
-    setLoading(false);
-    toast.info('Calculator cleared.');
+    setLoadingOperation(null);
+    toast.info("Calculator cleared.");
   };
 
   return (
@@ -72,25 +84,24 @@ const Calculator: React.FC = () => {
           />
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <Button onClick={() => handleOperation('add')} disabled={loading}>
-            {loading && result === null ? 'Adding...' : 'Add'}
-          </Button>
-          <Button onClick={() => handleOperation('subtract')} disabled={loading}>
-            {loading && result === null ? 'Subtracting...' : 'Subtract'}
-          </Button>
-          <Button onClick={() => handleOperation('multiply')} disabled={loading}>
-            {loading && result === null ? 'Multiplying...' : 'Multiply'}
-          </Button>
-          <Button onClick={() => handleOperation('divide')} disabled={loading}>
-            {loading && result === null ? 'Dividing...' : 'Divide'}
-          </Button>
+          {OPERATIONS.map((operation) => (
+            <Button
+              key={operation}
+              onClick={() => handleOperation(operation)}
+              disabled={loadingOperation !== null}
+            >
+              {loadingOperation === operation
+                ? OPERATION_LABELS[operation].loading
+                : OPERATION_LABELS[operation].idle}
+            </Button>
+          ))}
         </div>
-        <Button onClick={handleClear} variant="outline" className="w-full mt-2" disabled={loading}>
+        <Button onClick={handleClear} variant="outline" className="w-full mt-2" disabled={loadingOperation !== null}>
           Clear
         </Button>
         {result !== null && (
           <div className="text-center text-2xl font-bold mt-4">
-            Result: <span className={result === 'Error' ? 'text-red-500' : 'text-green-500'}>{result}</span>
+            Result: <span className={result === "Error" ? "text-red-500" : "text-green-500"}>{result}</span>
           </div>
         )}
       </CardContent>

@@ -1,7 +1,7 @@
-import React from 'react';
-import Calculator from '../components/Calculator';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../components/ui/card';
-import { Separator } from '../components/ui/separator'; // Assuming Separator exists or creating it
+import React from "react";
+import Calculator from "../components/Calculator";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../components/ui/card";
+import { Separator } from "../components/ui/separator";
 
 const IndexPage: React.FC = () => {
   return (
@@ -14,7 +14,8 @@ const IndexPage: React.FC = () => {
         <CardContent className="space-y-4 text-center">
           <p className="text-lg">
             Este projeto foi desenvolvido como parte do 1º Trabalho Prático da Unidade Curricular de
-            **Desenvolvimento de Aplicações Web** do curso de **LESTI** na **Universidade do Algarve** para o ano letivo 2025/26.
+            <strong> Desenvolvimento de Aplicações Web </strong>
+            do curso de <strong>LESTI</strong> na <strong>Universidade do Algarve</strong> para o ano letivo 2025/26.
           </p>
           <p>
             O objetivo é implementar um serviço SOAP em Node.js, um cliente SOAP e um proxy RESTful para interagir com o serviço.
