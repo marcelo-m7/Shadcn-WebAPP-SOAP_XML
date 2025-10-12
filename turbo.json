@@ -1,7 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "dev": { "cache": false, "persistent": true },
+    "dev": { 
+      "cache": false, 
+      "persistent": true,
+      "passThroughArgs": ["--port"]
+    },
     "build": { "dependsOn": ["^build"], "outputs": ["dist/**"] },
     "lint": { "outputs": [] },
     "test": { "dependsOn": ["build"], "outputs": [] }
