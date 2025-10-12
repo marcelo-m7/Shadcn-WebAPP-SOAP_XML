@@ -6,7 +6,8 @@
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
     "build": "echo \"no build\"",
-    "lint": "echo \"no lint\""
+    "lint": "echo \"no lint\"",
+    "open:frontend": "open http://localhost:3000"
   },
   "dependencies": {
     "soap": "^1.0.0",

@@ -1,15 +1,21 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import IndexPage from './pages/Index.tsx';
-import ThemeToggle from './components/ThemeToggle.tsx';
+/**
+ * Universidade do Algarve - LESTI 2025/26
+ * UC: Desenvolvimento de Aplicações Web
+ * 1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+ * Autor: Marcelo Santos (a79433)
+ */
+
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import IndexPage from "./pages/Index.tsx";
+import ThemeToggle from "./components/ThemeToggle.tsx";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 relative">
+    <div className="min-h-screen bg-ualg-light dark:bg-ualg-night text-ualg-ink dark:text-ualg-snow relative">
       <ThemeToggle />
       <Routes>
         <Route path="/" element={<IndexPage />} />
-        {/* Add other routes here */}
       </Routes>
     </div>
   );

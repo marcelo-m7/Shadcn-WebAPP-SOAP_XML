@@ -1,3 +1,11 @@
+/**
+ * Universidade do Algarve - LESTI 2025/26
+ * UC: Desenvolvimento de Aplicações Web
+ * 1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+ * Autor: Marcelo Santos (a79433)
+ */
+
+// Educational implementation for TP1: Express proxy that exposes REST endpoints backed by SOAP operations.
 import express from "express";
 import soap from "soap";
 import cors from "cors";
@@ -19,7 +27,7 @@ soap.createClient(WSDL_URL, (err, client) => {
     process.exit(1);
   }
   soapClient = client;
-  console.log("SOAP client initialized successfully.");
+  console.log("SOAP client initialized successfully for the UAlg TP1 proxy.");
 });
 
 // Middleware to ensure SOAP client is ready
@@ -32,7 +40,7 @@ app.use((req, res, next) => {
 
 // Health check endpoint
 app.get("/health", (req, res) => {
-  res.status(200).json({ ok: true, soapClientReady: !!soapClient });
+  res.status(200).json({ ok: true, soapClientReady: !!soapClient, author: "Marcelo Santos" });
 });
 
 // Generic handler for arithmetic operations
@@ -69,5 +77,8 @@ app.post("/multiply", handleSoapOperation("multiply"));
 app.post("/divide", handleSoapOperation("divide"));
 
 app.listen(PORT, () => {
-  console.log(`SOAP Proxy server listening at http://localhost:${PORT}`);
+  console.log("\n=== UAlg - LESTI 2025/26 ===");
+  console.log("SOAP Proxy (Marcelo Santos - a79433)");
+  console.log(`Proxy available at http://localhost:${PORT}`);
+  console.log("");
 });

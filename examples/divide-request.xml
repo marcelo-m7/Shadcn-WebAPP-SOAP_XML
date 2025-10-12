@@ -1,0 +1,10 @@
+<!-- Universidade do Algarve - LESTI 2025/26 | SOAP TP1 | Marcelo Santos (a79433) -->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="http://www.example.com/arithmetic">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:divide>
+      <urn:a>20</urn:a>
+      <urn:b>4</urn:b>
+    </urn:divide>
+  </soapenv:Body>
+</soapenv:Envelope>
