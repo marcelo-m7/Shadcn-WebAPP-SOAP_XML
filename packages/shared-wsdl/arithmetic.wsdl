@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Universidade do Algarve - LESTI 2025/26
+  UC: Desenvolvimento de Aplicações Web
+  1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+  Autor: Marcelo Santos (a79433)
+  Educational WSDL definition for the SOAP calculator service used in TP1.
+-->
 <definitions name="ArithmeticService"
              targetNamespace="http://www.example.com/arithmetic"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
@@ -162,6 +169,7 @@
     </binding>
 
     <service name="ArithmeticService">
+        <documentation>SOAP calculator service for educational purposes (Marcelo Santos - a79433).</documentation>
         <port binding="tns:ArithmeticBinding" name="ArithmeticPort">
             <soap:address location="http://localhost:3000/wsdl"/>
         </port>

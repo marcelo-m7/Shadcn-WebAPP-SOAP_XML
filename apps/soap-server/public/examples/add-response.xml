@@ -1,0 +1,9 @@
+<!-- Exemplo de resposta SOAP para a operação add -->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://www.example.com/arithmetic">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <tns:addResponse>
+      <tns:result>12</tns:result>
+    </tns:addResponse>
+  </soapenv:Body>
+</soapenv:Envelope>

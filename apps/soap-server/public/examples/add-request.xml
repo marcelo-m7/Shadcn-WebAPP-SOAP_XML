@@ -1,0 +1,10 @@
+<!-- Exemplo de pedido SOAP para a operação add -->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://www.example.com/arithmetic">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <tns:addRequest>
+      <tns:a>7</tns:a>
+      <tns:b>5</tns:b>
+    </tns:addRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
