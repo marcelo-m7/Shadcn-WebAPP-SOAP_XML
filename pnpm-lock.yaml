@@ -43,6 +43,12 @@ importers:
 
   apps/soap-server:
     dependencies:
+      '@shared/validators':
+        specifier: workspace:*
+        version: link:../../packages/shared-validators
+      '@shared/wsdl':
+        specifier: workspace:*
+        version: link:../../packages/shared-wsdl
       soap:
         specifier: ^1.0.0
         version: 1.5.0
