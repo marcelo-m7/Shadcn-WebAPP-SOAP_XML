@@ -16,48 +16,7 @@ importers:
         specifier: ^2.0.9
         version: 2.5.8
 
-  apps/soap-client:
-    dependencies:
-      soap:
-        specifier: ^1.0.0
-        version: 1.5.0
-
-  apps/soap-proxy:
-    dependencies:
-      body-parser:
-        specifier: ^1.20.2
-        version: 1.20.3
-      cors:
-        specifier: ^2.8.5
-        version: 2.8.5
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      soap:
-        specifier: ^1.0.0
-        version: 1.5.0
-    devDependencies:
-      nodemon:
-        specifier: ^3.1.4
-        version: 3.1.10
-
-  apps/soap-server:
-    dependencies:
-      '@shared/validators':
-        specifier: workspace:*
-        version: link:../../packages/shared-validators
-      '@shared/wsdl':
-        specifier: workspace:*
-        version: link:../../packages/shared-wsdl
-      soap:
-        specifier: ^1.0.0
-        version: 1.5.0
-    devDependencies:
-      nodemon:
-        specifier: ^3.1.4
-        version: 3.1.10
-
-  apps/web:
+  apps/frontend:
     dependencies:
       '@radix-ui/react-label':
         specifier: ^2.1.0
@@ -132,6 +91,47 @@ importers:
       vite:
         specifier: ^5.3.1
         version: 5.4.20
+
+  apps/soap-client:
+    dependencies:
+      soap:
+        specifier: ^1.0.0
+        version: 1.5.0
+
+  apps/soap-proxy:
+    dependencies:
+      body-parser:
+        specifier: ^1.20.2
+        version: 1.20.3
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
+      express:
+        specifier: ^4.19.2
+        version: 4.21.2
+      soap:
+        specifier: ^1.0.0
+        version: 1.5.0
+    devDependencies:
+      nodemon:
+        specifier: ^3.1.4
+        version: 3.1.10
+
+  apps/soap-server:
+    dependencies:
+      '@shared/validators':
+        specifier: workspace:*
+        version: link:../../packages/shared-validators
+      '@shared/wsdl':
+        specifier: workspace:*
+        version: link:../../packages/shared-wsdl
+      soap:
+        specifier: ^1.0.0
+        version: 1.5.0
+    devDependencies:
+      nodemon:
+        specifier: ^3.1.4
+        version: 3.1.10
 
   packages/shared-validators: {}
 
