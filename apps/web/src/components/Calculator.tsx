@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { performOperation } from '../lib/api';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card'
 import { Label } from './ui/label';
 import { toast } from 'sonner';
 
-const Calculator: React.FC = () => {
+const Calculator = () => {
   const [numberA, setNumberA] = useState<string>('');
   const [numberB, setNumberB] = useState<string>('');
   const [result, setResult] = useState<number | string | null>(null);

@@ -1,0 +1,55 @@
+version: '3.9'
+services:
+  soap-server:
+    build:
+      context: .
+      target: soap-server
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://localhost:3000/health').then(r=>{if(!r.ok)process.exit(1);process.exit(0);}).catch(()=>process.exit(1));"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  soap-proxy:
+    build:
+      context: .
+      target: soap-proxy
+    environment:
+      - WSDL_URL=http://soap-server:3000/wsdl?wsdl
+      - SOAP_CLIENT_RETRY_MS=2000
+    depends_on:
+      soap-server:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://localhost:3001/health').then(r=>{if(!r.ok)process.exit(1);process.exit(0);}).catch(()=>process.exit(1));"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  web:
+    build:
+      context: .
+      target: web
+    depends_on:
+      soap-proxy:
+        condition: service_started
+    ports:
+      - "4173:80"
