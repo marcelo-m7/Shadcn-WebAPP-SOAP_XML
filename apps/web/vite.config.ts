@@ -5,6 +5,6 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 32100, // Ensure this matches the port passed by Dyad
+    // Removed explicit port setting to use Vite's default (5173)
   }
 });
