@@ -9,7 +9,9 @@
     "lint": "echo \"no lint\""
   },
   "dependencies": {
-    "soap": "^1.0.0"
+    "soap": "^1.0.0",
+    "@shared/wsdl": "workspace:*",
+    "@shared/validators": "workspace:*"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
