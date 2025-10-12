@@ -111,9 +111,27 @@ To run the full application, you need to start the SOAP server, the SOAP proxy, 
 
 4.  **Open Frontend in Browser:**
     ```bash
-    pnpm open:frontend
-    ```
-    This command will automatically open `http://localhost:32100` in your default web browser.
+pnpm open:frontend
+```
+This command will automatically open `http://localhost:32100` in your default web browser.
+
+### 🐳 Running with Docker
+
+A production-like stack (SOAP server, REST proxy and built frontend) can be started with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+This will expose the following ports on your machine:
+
+| Service        | Container Port | Host Port | Notes |
+| -------------- | -------------- | --------- | ----- |
+| SOAP Server    | 3000           | 3000      | WSDL available at `http://localhost:3000/wsdl?wsdl` |
+| SOAP REST Proxy| 3001           | 3001      | Health endpoint at `http://localhost:3001/health` |
+| Frontend (Nginx)| 80            | 32100     | Accessible at `http://localhost:32100` |
+
+The proxy container keeps retrying to connect to the SOAP server until it becomes available. You can override retry behaviour with the environment variables `SOAP_CLIENT_MAX_RETRIES` (set to `-1` for infinite retries) and `SOAP_CLIENT_RETRY_DELAY_MS` (delay in milliseconds between attempts).
 
 ## 🧪 Testing with SOAP Client (CLI)
 

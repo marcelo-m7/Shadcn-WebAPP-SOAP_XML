@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { performOperation } from '../lib/api';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -6,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card'
 import { Label } from './ui/label';
 import { toast } from 'sonner';
 
-const Calculator: React.FC = () => {
+const Calculator: FC = () => {
   const [numberA, setNumberA] = useState<string>('');
   const [numberB, setNumberB] = useState<string>('');
   const [result, setResult] = useState<number | string | null>(null);
@@ -27,9 +28,10 @@ const Calculator: React.FC = () => {
       const res = await performOperation(operation, a, b);
       setResult(res);
       toast.success(`Operation successful! Result: ${res}`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setResult('Error');
-      toast.error(error.message || 'An unexpected error occurred.');
+      const message = error instanceof Error ? error.message : 'An unexpected error occurred.';
+      toast.error(message);
     } finally {
       setLoading(false);
     }

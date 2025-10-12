@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  soap-server:
+    build:
+      context: .
+      target: soap-server
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  soap-proxy:
+    build:
+      context: .
+      target: soap-proxy
+    environment:
+      - PORT=3001
+      - WSDL_URL=http://soap-server:3000/wsdl?wsdl
+      - SOAP_CLIENT_RETRY_DELAY_MS=2000
+      - SOAP_CLIENT_MAX_RETRIES=-1
+    ports:
+      - "3001:3001"
+    depends_on:
+      soap-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3001/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  frontend:
+    build:
+      context: .
+      target: frontend
+      args:
+        VITE_SOAP_PROXY_URL: http://localhost:3001
+    ports:
+      - "32100:80"
+    depends_on:
+      soap-proxy:
+        condition: service_healthy

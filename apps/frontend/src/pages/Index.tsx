@@ -1,9 +1,9 @@
-import React from 'react';
+import type { FC } from 'react';
 import Calculator from '../components/Calculator';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../components/ui/card';
 import { Separator } from '../components/ui/separator'; // Assuming Separator exists or creating it
 
-const IndexPage: React.FC = () => {
+const IndexPage: FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50">
       <Card className="w-full max-w-2xl mx-auto mb-8">

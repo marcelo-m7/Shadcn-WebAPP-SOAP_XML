@@ -1,0 +1,16 @@
+node_modules
+pnpm-store
+.pnpm-store
+.turbo
+.vite
+apps/**/dist
+apps/frontend/.vite
+apps/frontend/node_modules
+apps/soap-server/node_modules
+apps/soap-proxy/node_modules
+apps/soap-client/node_modules
+packages/**/node_modules
+.git
+.gitignore
+*.log
+coverage

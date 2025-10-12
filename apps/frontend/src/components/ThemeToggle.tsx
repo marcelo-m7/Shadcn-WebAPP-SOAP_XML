@@ -1,14 +1,14 @@
 "use client";
 
-import * as React from "react";
+import { useEffect, useState, type FC } from "react";
 import { Moon, Sun } from "lucide-react";
 
 import { Button } from "./ui/button";
 
-const ThemeToggle: React.FC = () => {
-  const [theme, setTheme] = React.useState<"dark" | "light" | "system">("system");
+const ThemeToggle: FC = () => {
+  const [theme, setTheme] = useState<"dark" | "light" | "system">("system");
 
-  React.useEffect(() => {
+  useEffect(() => {
     const storedTheme = localStorage.getItem("theme") as "dark" | "light" | "system" | null;
     if (storedTheme) {
       setTheme(storedTheme);
@@ -19,7 +19,7 @@ const ThemeToggle: React.FC = () => {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
 
