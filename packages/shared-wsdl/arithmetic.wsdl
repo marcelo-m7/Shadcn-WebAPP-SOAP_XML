@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Universidade do Algarve - LESTI 2025/26 | SOAP TP1 by Marcelo Santos (a79433) -->
 <definitions name="ArithmeticService"
              targetNamespace="http://www.example.com/arithmetic"
              xmlns="http://schemas.xmlsoap.org/wsdl/"

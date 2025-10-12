@@ -2,10 +2,10 @@
 export default {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -51,6 +51,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "ualg-blue": "#003d7c",
+        "ualg-green": "#7ac143",
+        "ualg-gold": "#f8b400",
+        "ualg-light": "#f5f7fb",
+        "ualg-night": "#0b1120",
+        "ualg-ink": "#1f2933",
+        "ualg-snow": "#f8fafc",
       },
       borderRadius: {
         lg: "var(--radius)",
