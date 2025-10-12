@@ -1,3 +1,10 @@
+/**
+ * Universidade do Algarve - LESTI 2025/26
+ * UC: Desenvolvimento de Aplicações Web
+ * 1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+ * Autor: Marcelo Santos (a79433)
+ */
+
 import soap from "soap";
 
 const [,, op, aStr, bStr] = process.argv;
@@ -13,6 +20,9 @@ soap.createClient(WSDL_URL, (err, client) => {
     console.error("Error creating SOAP client:", err);
     process.exit(1);
   }
+  console.log("=== UAlg - LESTI 2025/26 ===");
+  console.log("SOAP Client CLI (Educational TP1)");
+  console.log("---------------------------------");
   const fn = client[op];
   if (typeof fn !== "function") {
     console.error(`Unknown operation: ${op}`);

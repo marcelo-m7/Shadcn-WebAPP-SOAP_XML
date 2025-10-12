@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-PT" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SOAP Calculator — UAlg LESTI 2025/26 — Marcelo Santos (a79433)</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --accent: #006699;
+        --accent-dark: #004466;
+        --background-light: #f4f7fb;
+        --background-dark: #10141c;
+        --surface-light: #ffffffcc;
+        --surface-dark: #1c2333cc;
+        --text-light: #1d2433;
+        --text-dark: #e4e9f5;
+        --border-light: rgba(0, 0, 0, 0.08);
+        --border-dark: rgba(255, 255, 255, 0.12);
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-family);
+        line-height: 1.6;
+        background: var(--background);
+        color: var(--text);
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem 4rem;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: 0 18px 40px -32px rgba(0, 0, 0, 0.6);
+      }
+
+      header img {
+        height: 72px;
+      }
+
+      .title-group {
+        flex: 1;
+        min-width: 240px;
+      }
+
+      h1 {
+        margin: 0 0 0.25rem;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        letter-spacing: 0.02em;
+      }
+
+      .subtitle {
+        margin: 0;
+        font-size: 1rem;
+        opacity: 0.84;
+      }
+
+      .card {
+        background: var(--surface);
+        border-radius: 1.25rem;
+        border: 1px solid var(--border);
+        padding: 1.8rem;
+        margin-top: 1.75rem;
+        box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.55);
+      }
+
+      .card h2 {
+        margin-top: 0;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-size: 0.95rem;
+      }
+
+      ul, ol {
+        padding-left: 1.2rem;
+      }
+
+      a {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+
+      pre {
+        padding: 1rem;
+        border-radius: 0.75rem;
+        background: rgba(0, 0, 0, 0.12);
+        color: inherit;
+        overflow-x: auto;
+        font-size: 0.92rem;
+      }
+
+      footer {
+        margin-top: 3rem;
+        text-align: center;
+        font-size: 0.9rem;
+        opacity: 0.75;
+      }
+
+      .theme-toggle {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 0.6rem 1.4rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: transform 0.2s ease, background 0.3s ease;
+      }
+
+      .theme-toggle:hover,
+      .theme-toggle:focus {
+        transform: translateY(-2px);
+        background: var(--accent-dark);
+      }
+
+      @media (max-width: 720px) {
+        header {
+          text-align: center;
+        }
+
+        header img {
+          margin: 0 auto;
+        }
+
+        .theme-toggle {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const storedTheme = localStorage.getItem('theme');
+      const theme = storedTheme || (prefersDark ? 'dark' : 'light');
+      const applyTheme = (mode) => {
+        const root = document.documentElement;
+        root.dataset.theme = mode;
+        root.style.setProperty('--background', mode === 'dark' ? getComputedStyle(root).getPropertyValue('--background-dark') : getComputedStyle(root).getPropertyValue('--background-light'));
+        root.style.setProperty('--surface', mode === 'dark' ? getComputedStyle(root).getPropertyValue('--surface-dark') : getComputedStyle(root).getPropertyValue('--surface-light'));
+        root.style.setProperty('--text', mode === 'dark' ? getComputedStyle(root).getPropertyValue('--text-dark') : getComputedStyle(root).getPropertyValue('--text-light'));
+        root.style.setProperty('--border', mode === 'dark' ? getComputedStyle(root).getPropertyValue('--border-dark') : getComputedStyle(root).getPropertyValue('--border-light'));
+      };
+      applyTheme(theme);
+    </script>
+    <main>
+      <header>
+        <img src="https://www.ualg.pt/sites/default/files/favicon-512x512.png" alt="Logótipo Universidade do Algarve" />
+        <div class="title-group">
+          <h1>SOAP Calculator — UAlg LESTI 2025/26</h1>
+          <p class="subtitle">
+            1º Trabalho Prático de Desenvolvimento de Aplicações Web<br />
+            Autor: <strong>Marcelo Santos</strong> (a79433)
+          </p>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button">Alternar tema</button>
+      </header>
+
+      <section class="card">
+        <h2>Contexto Académico</h2>
+        <p>
+          Este projeto concretiza o 1º Trabalho Prático da unidade curricular <em>Desenvolvimento de Aplicações Web</em> do curso LESTI — Licenciatura em Engenharia de Sistemas e Tecnologias de Informação, Universidade do Algarve (ano letivo 2025/26). O objetivo é implementar um serviço SOAP em Node.js que exponha operações aritméticas básicas, exercitando competências de integração de serviços e compreensão de protocolos orientados a mensagens.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Componentes Principais</h2>
+        <ul>
+          <li><strong>SOAP Server:</strong> disponibiliza operações aritméticas via WSDL e serve esta página informativa.</li>
+          <li><strong>SOAP Client CLI:</strong> permite invocar operações a partir da linha de comandos para fins de teste académico.</li>
+          <li><strong>REST Proxy:</strong> expõe o serviço SOAP através de endpoints JSON, facilitando integrações modernas.</li>
+          <li><strong>Shared Packages:</strong> partilham o WSDL e validadores de entrada entre aplicações.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Ligação Rápida</h2>
+        <ul>
+          <li>WSDL: <a href="/wsdl?wsdl">http://localhost:3000/wsdl?wsdl</a></li>
+          <li>Repositório GitHub: <a href="https://github.com/marcelo-m7/UAlg-SOAP-TP1WEB">github.com/marcelo-m7/UAlg-SOAP-TP1WEB</a></li>
+          <li>Exemplos XML: <a href="https://github.com/marcelo-m7/UAlg-SOAP-TP1WEB/tree/work/examples">/examples</a> no repositório</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Exemplos de Requests SOAP</h2>
+        <p>Invocar a operação <code>add</code>:</p>
+        <pre>&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+  &lt;soap:Body&gt;
+    &lt;add&gt;
+      &lt;a&gt;7&lt;/a&gt;
+      &lt;b&gt;5&lt;/b&gt;
+    &lt;/add&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</pre>
+        <p>Resposta esperada:</p>
+        <pre>&lt;soap:Envelope ...&gt;
+  &lt;soap:Body&gt;
+    &lt;addResponse&gt;
+      &lt;result&gt;12&lt;/result&gt;
+    &lt;/addResponse&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</pre>
+      </section>
+
+      <section class="card">
+        <h2>Como testar rapidamente</h2>
+        <ol>
+          <li>Instalar dependências: <code>pnpm install</code></li>
+          <li>Arrancar o servidor SOAP: <code>pnpm --filter soap-server dev</code></li>
+          <li>Executar o cliente: <code>pnpm --filter soap-client start add 7 5</code></li>
+          <li>Invocar via REST Proxy (POST JSON): <code>curl -X POST http://localhost:3001/add -H "Content-Type: application/json" -d '{"a":7,"b":5}'</code></li>
+        </ol>
+      </section>
+
+      <footer>
+        Projeto desenvolvido para fins académicos no âmbito da UC Desenvolvimento de Aplicações Web — Universidade do Algarve (2025/26).
+      </footer>
+    </main>
+    <script>
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        const current = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', current);
+        applyTheme(current);
+      });
+    </script>
+  </body>
+</html>

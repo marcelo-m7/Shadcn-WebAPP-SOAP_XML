@@ -1,0 +1,8 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <add>
+      <a>7</a>
+      <b>5</b>
+    </add>
+  </soap:Body>
+</soap:Envelope>

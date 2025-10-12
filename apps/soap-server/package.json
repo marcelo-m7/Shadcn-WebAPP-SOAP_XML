@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
+    "open:frontend": "open http://localhost:3000",
     "build": "echo \"no build\"",
     "lint": "echo \"no lint\""
   },

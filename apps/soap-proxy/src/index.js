@@ -1,3 +1,10 @@
+/**
+ * Universidade do Algarve - LESTI 2025/26
+ * UC: Desenvolvimento de Aplicações Web
+ * 1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+ * Autor: Marcelo Santos (a79433)
+ */
+
 import express from "express";
 import soap from "soap";
 import cors from "cors";
@@ -69,5 +76,8 @@ app.post("/multiply", handleSoapOperation("multiply"));
 app.post("/divide", handleSoapOperation("divide"));
 
 app.listen(PORT, () => {
+  console.log("=== UAlg - LESTI 2025/26 ===");
+  console.log("SOAP REST Proxy (Marcelo Santos - a79433)");
+  console.log("----------------------------------------");
   console.log(`SOAP Proxy server listening at http://localhost:${PORT}`);
 });
