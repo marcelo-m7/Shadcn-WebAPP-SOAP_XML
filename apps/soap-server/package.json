@@ -1,0 +1,17 @@
+{
+  "name": "soap-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "build": "echo \"no build\"",
+    "lint": "echo \"no lint\""
+  },
+  "dependencies": {
+    "soap": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

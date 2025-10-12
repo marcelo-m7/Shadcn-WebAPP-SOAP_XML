@@ -12,6 +12,10 @@ importers:
         specifier: ^2.0.9
         version: 2.5.8
 
+  packages/shared-validators: {}
+
+  packages/shared-wsdl: {}
+
 packages:
 
   turbo-darwin-64@2.5.8:
