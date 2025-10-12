@@ -18,16 +18,40 @@ app.use(cors());
 app.use(bodyParser.json());
 
 let soapClient;
+let soapClientAttempts = 0;
+const SOAP_CLIENT_RETRY_MS = Number(process.env.SOAP_CLIENT_RETRY_MS || 2000);
+const SOAP_CLIENT_MAX_RETRIES = process.env.SOAP_CLIENT_MAX_RETRIES
+  ? Number(process.env.SOAP_CLIENT_MAX_RETRIES)
+  : 0; // 0 => unlimited retries
 
-// Educational implementation for TP1: initialize the SOAP client used by the REST proxy.
-soap.createClient(WSDL_URL, (err, client) => {
-  if (err) {
-    console.error("Error creating SOAP client:", err);
+const scheduleSoapClientRetry = () => {
+  if (SOAP_CLIENT_MAX_RETRIES && soapClientAttempts >= SOAP_CLIENT_MAX_RETRIES) {
+    console.error("Maximum SOAP client initialization attempts reached. Exiting.");
     process.exit(1);
   }
-  soapClient = client;
-  console.log("SOAP client initialized successfully.");
-});
+
+  setTimeout(initializeSoapClient, SOAP_CLIENT_RETRY_MS);
+};
+
+const initializeSoapClient = () => {
+  soapClientAttempts += 1;
+  console.log(`Initializing SOAP client (attempt ${soapClientAttempts})...`);
+
+  soap.createClient(WSDL_URL, (err, client) => {
+    if (err) {
+      const reason = err?.message || err;
+      console.error("Error creating SOAP client:", reason);
+      scheduleSoapClientRetry();
+      return;
+    }
+
+    soapClient = client;
+    console.log("SOAP client initialized successfully.");
+  });
+};
+
+// Educational implementation for TP1: initialize the SOAP client used by the REST proxy.
+initializeSoapClient();
 
 // Middleware to ensure SOAP client is ready
 app.use((req, res, next) => {
@@ -43,6 +67,44 @@ app.get("/health", (req, res) => {
 });
 
 // Generic handler for arithmetic operations
+const extractFaultMessage = (fault) => {
+  if (!fault) {
+    return "SOAP operation failed";
+  }
+
+  if (typeof fault === "string") {
+    const textMatch = fault.match(/<soap:Text>([^<]+)<\/soap:Text>/i);
+    if (textMatch) {
+      return textMatch[1].trim();
+    }
+    return fault.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  if (fault.body) {
+    return extractFaultMessage(fault.body);
+  }
+
+  if (fault.message) {
+    return fault.message;
+  }
+
+  return "SOAP operation failed";
+};
+
+const mapFaultToStatusCode = (fault) => {
+  const code = fault?.code;
+  if (code === "Client.DivisionByZero" || code === "Client.ValidationError") {
+    return 400;
+  }
+
+  const message = extractFaultMessage(fault);
+  if (/division by zero/i.test(message) || /must be a finite number/i.test(message)) {
+    return 400;
+  }
+
+  return 500;
+};
+
 const handleSoapOperation = (operation) => async (req, res) => {
   const { a, b } = req.body;
 
@@ -58,9 +120,10 @@ const handleSoapOperation = (operation) => async (req, res) => {
 
     fn({ a, b }, (faultOrErr, result) => {
       if (faultOrErr) {
+        const faultMessage = extractFaultMessage(faultOrErr);
         console.error(`SOAP Fault/Error for ${operation}:`, faultOrErr.body || faultOrErr);
-        const statusCode = faultOrErr.code === "Client.DivisionByZero" || faultOrErr.code === "Client.ValidationError" ? 400 : 500;
-        return res.status(statusCode).json({ error: faultOrErr.body || faultOrErr.message || "SOAP operation failed" });
+        const statusCode = mapFaultToStatusCode(faultOrErr);
+        return res.status(statusCode).json({ error: faultMessage });
       }
       res.json(result);
     });
