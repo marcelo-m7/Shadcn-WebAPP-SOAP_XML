@@ -1,0 +1,20 @@
+{
+  "name": "soap-proxy",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "build": "echo \"no build\"",
+    "lint": "echo \"no lint\""
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "soap": "^1.0.0",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
