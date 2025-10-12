@@ -14,7 +14,7 @@ const Calculator: React.FC = () => {
 
   const handleOperation = async (operation: string) => {
     setLoading(true);
-    setResult(null);
+    setResult(null); // Clear previous result when a new operation starts
     try {
       const a = parseFloat(numberA);
       const b = parseFloat(numberB);
@@ -33,6 +33,14 @@ const Calculator: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClear = () => {
+    setNumberA('');
+    setNumberB('');
+    setResult(null);
+    setLoading(false);
+    toast.info('Calculator cleared.');
   };
 
   return (
@@ -77,13 +85,16 @@ const Calculator: React.FC = () => {
             {loading && result === null ? 'Dividing...' : 'Divide'}
           </Button>
         </div>
+        <Button onClick={handleClear} variant="outline" className="w-full mt-2" disabled={loading}>
+          Clear
+        </Button>
         {result !== null && (
           <div className="text-center text-2xl font-bold mt-4">
             Result: <span className={result === 'Error' ? 'text-red-500' : 'text-green-500'}>{result}</span>
           </div>
         )}
       </CardContent>
-      <CardFooter className="text-sm text-muted-foreground text-center">
+      <CardFooter className="text-sm text-muted-foreground text-center justify-center">
         Powered by SOAP proxy
       </CardFooter>
     </Card>
