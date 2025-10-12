@@ -1,3 +1,9 @@
+/**
+ * Universidade do Algarve - LESTI 2025/26
+ * UC: Desenvolvimento de Aplicações Web
+ * 1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+ * Autor: Marcelo Santos (a79433)
+ */
 import express from "express";
 import soap from "soap";
 import cors from "cors";
@@ -12,7 +18,7 @@ app.use(bodyParser.json());
 
 let soapClient;
 
-// Initialize SOAP client
+// Initialize SOAP client for the proxy (Educational implementation for TP1)
 soap.createClient(WSDL_URL, (err, client) => {
   if (err) {
     console.error("Error creating SOAP client:", err);

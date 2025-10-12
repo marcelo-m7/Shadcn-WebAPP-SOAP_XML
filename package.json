@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "turbo run dev --filter=web --filter=soap-server --filter=soap-proxy -- --port 32100",
+    "dev": "turbo run dev --filter=frontend --filter=soap-server --filter=soap-proxy -- --port 32100",
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "open:frontend": "open http://localhost:32100"
   },
   "devDependencies": {
     "turbo": "^2.0.9"

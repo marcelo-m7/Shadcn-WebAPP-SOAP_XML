@@ -1,3 +1,9 @@
+/**
+ * Universidade do Algarve - LESTI 2025/26
+ * UC: Desenvolvimento de Aplicações Web
+ * 1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+ * Autor: Marcelo Santos (a79433)
+ */
 import http from "http";
 import soap from "soap";
 import { loadArithmeticWSDL } from "@shared/wsdl";
@@ -14,6 +20,10 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
+  console.log(`
+=== UAlg - LESTI 2025/26 ===
+SOAP Service Project (Marcelo Santos - a79433)
+`);
   console.log(`SOAP server listening at http://localhost:${PORT}`);
   console.log(`WSDL at http://localhost:${PORT}${WSDL_PATH}?wsdl`);
 });

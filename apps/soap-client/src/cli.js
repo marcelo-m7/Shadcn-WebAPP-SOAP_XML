@@ -1,3 +1,9 @@
+/**
+ * Universidade do Algarve - LESTI 2025/26
+ * UC: Desenvolvimento de Aplicações Web
+ * 1º Trabalho Prático: Implementação de Serviço SOAP em Node.js
+ * Autor: Marcelo Santos (a79433)
+ */
 import soap from "soap";
 
 const [,, op, aStr, bStr] = process.argv;
@@ -8,6 +14,7 @@ if (!op || aStr === undefined || bStr === undefined) {
 const A = Number(aStr), B = Number(bStr);
 const WSDL_URL = process.env.WSDL_URL || "http://localhost:3000/wsdl?wsdl";
 
+// Educational implementation for TP1: SOAP client for arithmetic operations
 soap.createClient(WSDL_URL, (err, client) => {
   if (err) {
     console.error("Error creating SOAP client:", err);
