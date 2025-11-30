@@ -164,7 +164,3 @@ This project can be deployed to various platforms. Here are some suggestions:
 
 *   **GitHub Pages**: Suitable for deploying the `apps/frontend` static site. You would need to configure GitHub Actions to build the frontend and deploy the `dist` folder.
 *   **Coolify / Render / Vercel**: For deploying the Node.js backend services (`soap-server`, `soap-proxy`) and potentially the frontend.
-
-## ⚠️ Academic Disclaimer
-
-This project was developed by Marcelo Santos (a79433) as part of the "Desenvolvimento de Aplicações Web 2025/26" course at the Universidade do Algarve, LESTI, for educational purposes. It serves as the 1º Trabalho Prático and demonstrates the implementation of SOAP services and related concepts.
