@@ -1,16 +1,4 @@
-# UAlg-SOAP-TP1WEB
-
-## Universidade do Algarve
-### Curso: LESTI (Licenciatura em Engenharia de Sistemas e Tecnologias de Informação)
-### Unidade Curricular: Desenvolvimento de Aplicações Web 2025/26
-### 1º Trabalho Prático — Implementação de Serviço SOAP em Node.js
-### Autor: Marcelo Santos (a79433)
-
----
-
 ## 📝 Project Description
-
-This project, developed for the "Desenvolvimento de Aplicações Web" course at UAlg, is the first practical assignment focusing on the implementation of a SOAP (Simple Object Access Protocol) service using Node.js. It demonstrates a basic arithmetic calculator service exposed via SOAP, consumed by both a command-line SOAP client and a RESTful proxy, which in turn is used by a modern web frontend.
 
 The primary learning objectives include:
 *   Understanding and implementing SOAP services in Node.js.
@@ -176,7 +164,3 @@ This project can be deployed to various platforms. Here are some suggestions:
 
 *   **GitHub Pages**: Suitable for deploying the `apps/frontend` static site. You would need to configure GitHub Actions to build the frontend and deploy the `dist` folder.
 *   **Coolify / Render / Vercel**: For deploying the Node.js backend services (`soap-server`, `soap-proxy`) and potentially the frontend.
-
-## ⚠️ Academic Disclaimer
-
-This project was developed by Marcelo Santos (a79433) as part of the "Desenvolvimento de Aplicações Web 2025/26" course at the Universidade do Algarve, LESTI, for educational purposes. It serves as the 1º Trabalho Prático and demonstrates the implementation of SOAP services and related concepts.
